@@ -1,0 +1,41 @@
+_BASE_: "../../base_clip_frozen_image_r50.yaml"
+MODEL:
+  META_ARCHITECTURE: "PartGLEE"
+  USE_EARLYFUSION: True
+  WEIGHTS: "projects/PartGLEE/checkpoint/PartGLEE_RN50.pth"
+  SEM_SEG_HEAD:
+    NAME: "MaskDINOHead"
+    IGNORE_VALUE: 255
+    NUM_CLASSES: 531
+  MaskDINO:
+    NUM_OBJECT_QUERIES: 300
+    NUM_PART_QUERIES: 10
+    UNIFY_OBJECT_PART: True
+    Q_FORMER: True
+    OBJECT_PART_DECODER_LAYERS: 6
+    TEST:
+      SEMANTIC_ON: True
+      OBJECT_PART_TEST_AUGMENTATIONS: True
+      ORACLE: True
+DATASETS:
+  TRAIN: ("pascalvoc_base_train",)
+  TEST: ("voc_obj_part_sem_seg_val_obj_condition",)
+SOLVER:
+  IMS_PER_BATCH: 8
+  BASE_LR: 0.00005
+  STEPS: (12000, )
+  MAX_ITER: 20000
+  CHECKPOINT_PERIOD: 5000
+TEST:
+  EVAL_PERIOD: 5000
+  DETECTIONS_PER_IMAGE: 100
+INPUT:
+  IMAGE_SIZE: 1024
+  MIN_SCALE: 0.1
+  MAX_SCALE: 2.0
+  FORMAT: "RGB"
+  DATASET_MAPPER_NAME: "joint_image_lsj"
+DATALOADER:
+  FILTER_EMPTY_ANNOTATIONS: True
+  NUM_WORKERS: 4
+OUTPUT_DIR: projects/PartGLEE/output/Inference/Pascal-Part-116/

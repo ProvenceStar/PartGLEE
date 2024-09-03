@@ -22,21 +22,21 @@ We will release the following contents for **PartGLEE**:
 
 - [ ] Demo Code
 
-- [ ] Model Zoo
+- [√] Model Zoo
 
-- [ ] Comprehensive User Guide
+- [√] Comprehensive User Guide
 
-- [ ] Training Code and Scripts
+- [√] Training Code and Scripts
 
-- [ ] Evaluation Code and Scripts
+- [√] Evaluation Code and Scripts
 
-<!-- # Getting started
+# Getting started
 
 1. Installation: Please refer to [INSTALL.md](assets/INSTALL.md) for more details.
 2. Data preparation: Please refer to [DATA.md](assets/DATA.md) for more details.
 3. Training: Please refer to [TRAIN.md](assets/TRAIN.md) for more details.
 4. Testing: Please refer to [TEST.md](assets/TEST.md) for more details. 
-5. Model zoo: Please refer to [MODEL_ZOO.md](assets/MODEL_ZOO.md) for more details. -->
+5. Model zoo: Please refer to [MODEL_ZOO.md](assets/MODEL_ZOO.md) for more details.
 
 # Introduction 
 

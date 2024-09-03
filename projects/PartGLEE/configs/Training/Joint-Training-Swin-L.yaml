@@ -1,0 +1,53 @@
+_BASE_: "../../base_clip_frozen_image_r50.yaml"
+MODEL:
+  WEIGHTS: "projects/PartGLEE/checkpoint/PartGLEE_converted_from_GLEE_SwinL.pth"
+  BACKBONE:
+    NAME: "D2SwinTransformer"
+  SWIN:
+    EMBED_DIM: 192
+    DEPTHS: [2, 2, 18, 2]
+    NUM_HEADS: [6, 12, 24, 48]
+    WINDOW_SIZE: 12
+    APE: False
+    DROP_PATH_RATE: 0.3
+    PATCH_NORM: True
+    PRETRAIN_IMG_SIZE: 384
+  SEM_SEG_HEAD:
+    NAME: "MaskDINOHead"
+    IGNORE_VALUE: 255
+    NUM_CLASSES: 531
+  TEXT:
+    ARCH: clip_teacher
+  MaskDINO:
+    NUM_OBJECT_QUERIES: 300
+    NUM_PART_QUERIES: 10
+    UNIFY_OBJECT_PART: True
+    Q_FORMER: True
+    OBJECT_PART_DECODER_LAYERS: 6
+DATASETS:
+  TRAIN: ("sa1b_joint", "paco_lvis_v1_train", "ade20k_joint_train", "pascalvoc_joint_train", "pascal_joint_train", "partimagenet_joint_train", "coco_2017_train", "vg_train_joint", "lvis_v1_train",)
+  TEST: ("paco_lvis_v1_val", )
+SOLVER:
+  IMS_PER_BATCH: 64
+  BASE_LR: 0.00005
+  STEPS: (60000, )
+  MAX_ITER: 90000
+  CHECKPOINT_PERIOD: 5000
+TEST:
+  EVAL_PERIOD: 5000
+INPUT:
+  IMAGE_SIZE: 1024
+  MIN_SCALE: 0.1
+  MAX_SCALE: 2.0
+  FORMAT: "RGB"
+  DATASET_MAPPER_NAME: "joint_image_lsj"
+DATALOADER:
+  SAMPLER_TRAIN: "MultiDatasetSampler"
+  DATASET_RATIO: [2, 6, 1, 1, 1, 1, 1, 2, 2]
+  FILTER_EMPTY_ANNOTATIONS: True
+  USE_DIFF_BS_SIZE: True
+  DATASET_BS: [1, 1, 1, 1, 1, 1, 1, 1, 1]
+  USE_RFS: [False, True, False, False, False, False, False, False, True, False]
+  DATASET_ANN: ['box', 'box', 'box', 'box', 'box', 'box', 'box', 'box', 'box', 'box', 'box', 'box', 'box', 'box', 'box']
+  NUM_WORKERS: 4
+OUTPUT_DIR: projects/PartGLEE/output/Training/Joint-Training-SwinL/
